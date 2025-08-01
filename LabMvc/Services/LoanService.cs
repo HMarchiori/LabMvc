@@ -36,4 +36,10 @@ public class LoanService
     {
         await _repository.Delete(id);
     }
+    
+    public async Task<Loan?> FindLoanByBookId(int bookId)
+    {
+        return await _repository.FindLoanByBookId(bookId);
+    }
+    
 }

@@ -26,7 +26,7 @@ public class LoanRepository(Context context) : IRepository<Loan>
     {
         return await context.Loans
                    .Include(l => l.Book)
-                   .FirstOrDefaultAsync(l => l.BookId == bookId && !l.IsDelivered) // pega apenas ativos
+                   .FirstOrDefaultAsync(l => l.BookId == bookId && l.IsDelivered) 
                ?? throw new KeyNotFoundException($"Loan with Book ID {bookId} not found.");
     }
 
