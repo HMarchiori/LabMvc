@@ -1,3 +1,4 @@
+using LabMvc.Models;
 using LabMvc.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,13 +22,23 @@ public class LibraryController : Controller
         return View();
     }
     
-    [HttpGet("books/author/{authorId:int}")]
-    public async Task<IActionResult> BooksByAuthor(int authorId)
+    [HttpGet("books/author")]
+    public async Task<IActionResult> BooksByAuthor(int? authorId)
     {
-        var booksWithStatus = await _service.GetBooksByAuthor(authorId);
+        if (!authorId.HasValue || authorId <= 0)
+        {
+            return View(new List<(Book, bool, DateTime?)>()); // view vazia, só com search
+        }
 
-        ViewBag.AuthorId = authorId; // só pra manter o hidden dos forms
-        return View(booksWithStatus); 
+        var booksWithStatus = await _service.GetBooksByAuthor(authorId.Value);
+
+        if (!booksWithStatus.Any())
+        {
+            TempData["Error"] = "No books found for this author ID.";
+        }
+
+        ViewBag.AuthorId = authorId.Value;
+        return View(booksWithStatus);
     }
 
     [HttpPost("borrow")]

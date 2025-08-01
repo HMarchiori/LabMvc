@@ -2,18 +2,22 @@
 
 <h2 class="mb-4">Books by Author</h2>
 
-@if (TempData["Success"] != null)
-{
-    <div class="alert alert-success">@TempData["Success"]</div>
-}
 @if (TempData["Error"] != null)
 {
     <div class="alert alert-danger">@TempData["Error"]</div>
 }
 
+<!-- 🔍 FORM DE BUSCA POR ID -->
+<form asp-action="BooksByAuthor" method="get" class="mb-4">
+    <div class="input-group">
+        <input type="number" name="authorId" class="form-control" placeholder="Enter author ID..." />
+        <button type="submit" class="btn btn-primary">Search</button>
+    </div>
+</form>
+
 @if (!Model.Any())
 {
-    <div class="alert alert-warning">No books found for this author.</div>
+    <div class="alert alert-info">Please search for an author ID to view books.</div>
 }
 else
 {
