@@ -13,48 +13,48 @@
 
 <table class="table table-striped">
     <thead>
-    <tr>
-        <th>Title</th>
-        <th>Status</th>
-        <th>Due Date</th>
-        <th>Actions</th>
-    </tr>
+        <tr>
+            <th>Title</th>
+            <th>Status</th>
+            <th>Due Date</th>
+            <th>Actions</th>
+        </tr>
     </thead>
     <tbody>
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>@item.Book.Title</td>
-            <td>
-                @if (item.IsAvailable)
-                {
-                    <span class="badge bg-success">Available</span>
-                }
-                else
-                {
-                    <span class="badge bg-danger">Borrowed</span>
-                }
-            </td>
-            <td>@(item.DueDate?.ToString("MM/dd/yyyy") ?? "-")</td>
-            <td>
-                @if (item.IsAvailable)
-                {
-                    <form asp-action="Borrow" method="post">
-                        <input type="hidden" name="bookId" value="@item.Book.Id" />
-                        <input type="hidden" name="authorId" value="@ViewBag.AuthorId" />
-                        <button type="submit" class="btn btn-primary btn-sm">Borrow</button>
-                    </form>
-                }
-                else
-                {
-                    <form asp-action="Return" method="post">
-                        <input type="hidden" name="bookId" value="@item.Book.Id" />
-                        <input type="hidden" name="authorId" value="@ViewBag.AuthorId" />
-                        <button type="submit" class="btn btn-warning btn-sm">Return</button>
-                    </form>
-                }
-            </td>
-        </tr>
-    }
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Book.Title</td>
+                <td>
+                    @if (item.IsAvailable)
+                    {
+                        <span class="badge bg-success">Available</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-danger">Borrowed</span>
+                    }
+                </td>
+                <td>@(item.DueDate?.ToString("MM/dd/yyyy") ?? "-")</td>
+                <td>
+                    @if (item.IsAvailable)
+                    {
+                        <form asp-controller="Library" asp-action="Borrow" method="post">
+                            <input type="hidden" name="bookId" value="@item.Book.Id" />
+                            <input type="hidden" name="authorId" value="@ViewBag.AuthorId" />
+                            <button type="submit" class="btn btn-primary btn-sm">Borrow</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <form asp-controller="Library" asp-action="Return" method="post">
+                            <input type="hidden" name="bookId" value="@item.Book.Id" />
+                            <input type="hidden" name="authorId" value="@ViewBag.AuthorId" />
+                            <button type="submit" class="btn btn-warning btn-sm">Return</button>
+                        </form>
+                    }
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

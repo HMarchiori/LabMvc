@@ -8,7 +8,6 @@
 
     <ItemGroup>
       <Content Remove="Views\Shared\Error.cshtml" />
-      <Content Remove="Pages\**" />
     </ItemGroup>
 
     <ItemGroup>
@@ -25,15 +24,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Compile Remove="Pages\**" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <EmbeddedResource Remove="Pages\**" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <None Remove="Pages\**" />
+      <Folder Include="Pages\Author\" />
     </ItemGroup>
 
 </Project>

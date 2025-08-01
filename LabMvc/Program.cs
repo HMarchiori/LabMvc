@@ -15,20 +15,22 @@ builder.Services.AddScoped<AuthorRepository>();
 builder.Services.AddScoped<BookRepository>();
 builder.Services.AddScoped<LoanRepository>();
 
-// Registro do serviço de biblioteca
+// Registro dos serviços
 builder.Services.AddScoped<AuthorService>();
 builder.Services.AddScoped<BookService>();
 builder.Services.AddScoped<LoanService>();
 builder.Services.AddScoped<LibraryService>();
 
-builder.Services.AddControllers() // Para Swagger (API)
+// Controllers API (Swagger) com JSON seguro
+builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
         options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
         options.JsonSerializerOptions.WriteIndented = true;
     });
 
-builder.Services.AddControllersWithViews(); // Para Razor MVC
+// MVC com Views (Razor)
+builder.Services.AddControllersWithViews();
 
 // Swagger/OpenAPI
 builder.Services.AddEndpointsApiExplorer();
@@ -46,9 +48,12 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseAuthorization();
 
-// Habilita MVC com rota padrão
+// Rota padrão para MVC Razor (Home Library/Index)
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Library}/{action=Index}/{id?}");
+
+// Suporte a controllers API com rotas via atributos
+app.MapControllers();
 
 app.Run();

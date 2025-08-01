@@ -28,7 +28,7 @@ public class LibraryController : Controller
     }
 
 
-    [HttpPost("borrow/{bookId:int}/{authorId:int}")]
+    [HttpPost("borrow")]
     public async Task<IActionResult> Borrow(int bookId, int authorId)
     {
         try

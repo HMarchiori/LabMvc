@@ -26,7 +26,7 @@ public class AuthorRepository(Context context) : IRepository<Author>
     {
         return await context.Authors
             .Include(a => a.Books)
-            .Where(a => a.LastName.Contains(lastName))
+            .Where(a => a.LastName.ToLower().Contains(lastName.ToLower()))
             .ToListAsync();
     }
 

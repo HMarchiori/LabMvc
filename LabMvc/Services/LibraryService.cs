@@ -25,7 +25,7 @@ public class LibraryService
         foreach (var book in books)
         {
             var activeLoan = await _loanRepository.FindLoanByBookId(book.Id);
-            bookAvailability.Add((book, false, activeLoan?.DevolutionDate));
+            bookAvailability.Add((book, activeLoan is not { IsDelivered: true } , activeLoan?.DevolutionDate));
         }
 
         return bookAvailability;
