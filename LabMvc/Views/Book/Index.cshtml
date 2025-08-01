@@ -1,0 +1,52 @@
+@model List<LabMvc.Models.Book>
+
+@{
+    ViewBag.Title = "Books";
+    Layout = "_Layout";
+}
+
+<h2>Books</h2>
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Title</th>
+        <th>Authors</th>
+        <th>Loans</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var book in Model)
+    {
+        <tr>
+            <td>@book.Title</td>
+            <td>
+                @if (book.Authors != null && book.Authors.Any())
+                {
+                    <ul class="mb-0">
+                        @foreach (var author in book.Authors)
+                        {
+                            <li>@author.FirstName @author.LastName</li>
+                        }
+                    </ul>
+                }
+                else
+                {
+                    <span class="text-muted">No authors</span>
+                }
+            </td>
+            <td>
+                @if (book.Loans != null && book.Loans.Any(l => !l.IsDelivered))
+                {
+                    var activeLoan = book.Loans.First(l => !l.IsDelivered);
+                    <span class="badge bg-danger">Borrowed - Due: @activeLoan.DevolutionDate.ToString("MM/dd/yyyy")</span>
+                }
+                else
+                {
+                    <span class="badge bg-success">Available</span>
+                }
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

@@ -25,10 +25,9 @@ public class LoanRepository(Context context) : IRepository<Loan>
     public async Task<Loan?> FindLoanByBookId(int bookId)
     {
         return await context.Loans
-                   .Include(l => l.Book)
-                   .FirstOrDefaultAsync(l => l.BookId == bookId);
+            .Include(l => l.Book)
+            .FirstOrDefaultAsync(l => l.BookId == bookId && !l.IsDelivered); 
     }
-
     public async Task Create(Loan loan)
     {
         if (loan == null)

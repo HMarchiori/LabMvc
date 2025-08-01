@@ -1,6 +1,6 @@
 @model List<(LabMvc.Models.Book Book, bool IsAvailable, DateTime? DueDate)>
 
-<h2>Books by Author</h2>
+<h2 class="mb-4">Books by Author</h2>
 
 @if (TempData["Success"] != null)
 {
@@ -11,22 +11,28 @@
     <div class="alert alert-danger">@TempData["Error"]</div>
 }
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Title</th>
-            <th>Status</th>
-            <th>Due Date</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
+@if (!Model.Any())
+{
+    <div class="alert alert-warning">No books found for this author.</div>
+}
+else
+{
+    <table class="table table-striped table-hover shadow-sm">
+        <thead class="table-dark">
+            <tr>
+                <th>Title</th>
+                <th>Status</th>
+                <th>Due Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var (Book, IsAvailable, DueDate) in Model)
         {
             <tr>
-                <td>@item.Book.Title</td>
+                <td>@Book.Title</td>
                 <td>
-                    @if (item.IsAvailable)
+                    @if (IsAvailable)
                     {
                         <span class="badge bg-success">Available</span>
                     }
@@ -35,12 +41,12 @@
                         <span class="badge bg-danger">Borrowed</span>
                     }
                 </td>
-                <td>@(item.DueDate?.ToString("MM/dd/yyyy") ?? "-")</td>
+                <td>@(DueDate?.ToString("MM/dd/yyyy") ?? "-")</td>
                 <td>
-                    @if (item.IsAvailable)
+                    @if (IsAvailable)
                     {
                         <form asp-controller="Library" asp-action="Borrow" method="post">
-                            <input type="hidden" name="bookId" value="@item.Book.Id" />
+                            <input type="hidden" name="bookId" value="@Book.Id" />
                             <input type="hidden" name="authorId" value="@ViewBag.AuthorId" />
                             <button type="submit" class="btn btn-primary btn-sm">Borrow</button>
                         </form>
@@ -48,7 +54,7 @@
                     else
                     {
                         <form asp-controller="Library" asp-action="Return" method="post">
-                            <input type="hidden" name="bookId" value="@item.Book.Id" />
+                            <input type="hidden" name="bookId" value="@Book.Id" />
                             <input type="hidden" name="authorId" value="@ViewBag.AuthorId" />
                             <button type="submit" class="btn btn-warning btn-sm">Return</button>
                         </form>
@@ -56,5 +62,6 @@
                 </td>
             </tr>
         }
-    </tbody>
-</table>
+        </tbody>
+    </table>
+}

@@ -6,10 +6,12 @@ namespace LabMvc.Controllers;
 public class LibraryController : Controller
 {
     private readonly LibraryService _service;
+    private readonly BookService _bookService;
 
-    public LibraryController(LibraryService service)
+    public LibraryController(LibraryService service, BookService bookService)
     {
         _service = service;
+        _bookService = bookService;
     }
 
     
@@ -22,11 +24,11 @@ public class LibraryController : Controller
     [HttpGet("books/author/{authorId:int}")]
     public async Task<IActionResult> BooksByAuthor(int authorId)
     {
-        var books = await _service.GetBooksByAuthor(authorId);
-        ViewBag.AuthorId = authorId;
-        return View(books); 
-    }
+        var booksWithStatus = await _service.GetBooksByAuthor(authorId);
 
+        ViewBag.AuthorId = authorId; // só pra manter o hidden dos forms
+        return View(booksWithStatus); 
+    }
 
     [HttpPost("borrow")]
     public async Task<IActionResult> Borrow(int bookId, int authorId)

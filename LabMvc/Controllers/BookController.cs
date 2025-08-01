@@ -1,11 +1,20 @@
+using LabMvc.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LabMvc.Controllers;
 
 public class BookController : Controller
 {
-    public IActionResult Index()
+    private readonly BookService _bookService;
+
+    public BookController(BookService bookService)
     {
-        return View();
+        _bookService = bookService;
+    }
+    
+    public async Task<IActionResult> Index()
+    {
+        var books = await _bookService.GetAll();
+        return View(books);
     }
 }
