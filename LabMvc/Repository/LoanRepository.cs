@@ -22,12 +22,11 @@ public class LoanRepository(Context context) : IRepository<Loan>
                ?? throw new KeyNotFoundException($"Loan with ID {id} not found.");
     }
 
-    public async Task<Loan> FindLoanByBookId(int bookId)
+    public async Task<Loan?> FindLoanByBookId(int bookId)
     {
         return await context.Loans
                    .Include(l => l.Book)
-                   .FirstOrDefaultAsync(l => l.BookId == bookId && l.IsDelivered) 
-               ?? throw new KeyNotFoundException($"Loan with Book ID {bookId} not found.");
+                   .FirstOrDefaultAsync(l => l.BookId == bookId);
     }
 
     public async Task Create(Loan loan)

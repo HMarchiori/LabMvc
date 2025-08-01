@@ -55,13 +55,12 @@ public class BookRepository(Context context) : IRepository<Book>
         await context.SaveChangesAsync();
     }
 
-    public async Task<List<Book>> GetByAuthorId(int id)
+    public async Task<List<Book>> GetByAuthorId(int authorId)
     {
-        var author = await context.Authors
-            .Include(a => a.Books)
-            .FirstOrDefaultAsync(a => a.Id == id);
-        if (author == null) throw new KeyNotFoundException($"Author with ID {id} not found.");
-        
-        return author.Books.ToList();
+        return await context.Books
+            .Include(b => b.Authors)
+            .Include(b => b.Loans)
+            .Where(b => b.Authors.Any(a => a.Id == authorId))
+            .ToListAsync();
     }
 }

@@ -1,0 +1,40 @@
+@{
+    ViewData["Title"] = "Library Home";
+}
+
+<div class="container mt-5">
+    <h1 class="display-4 text-center mb-4">📚 Library System</h1>
+    <p class="lead text-center mb-5">Manage books, borrow and return with ease.</p>
+
+    <div class="row text-center">
+        <div class="col-md-4">
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Browse Authors</h5>
+                    <p class="card-text">View all authors and their books.</p>
+                    <a asp-controller="Author" asp-action="Index" class="btn btn-primary">View Authors</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Library Actions</h5>
+                    <p class="card-text">Borrow or return books easily.</p>
+                    <a asp-controller="Library" asp-action="BooksByAuthor" asp-route-authorId="1" class="btn btn-success">Start Borrowing</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Books List</h5>
+                    <p class="card-text">View all books available in the library.</p>
+                    <a asp-controller="Book" asp-action="Index" class="btn btn-info">View Books</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

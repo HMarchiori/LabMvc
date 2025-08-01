@@ -12,8 +12,14 @@ public class LibraryController : Controller
         _service = service;
     }
 
-
-    [HttpGet]
+    
+    [HttpGet("")]
+    public IActionResult Index()
+    {
+        return View();
+    }
+    
+    [HttpGet("books/author/{authorId:int}")]
     public async Task<IActionResult> BooksByAuthor(int authorId)
     {
         var books = await _service.GetBooksByAuthor(authorId);
@@ -22,7 +28,7 @@ public class LibraryController : Controller
     }
 
 
-    [HttpPost]
+    [HttpPost("borrow/{bookId:int}/{authorId:int}")]
     public async Task<IActionResult> Borrow(int bookId, int authorId)
     {
         try
@@ -38,7 +44,7 @@ public class LibraryController : Controller
     }
 
 
-    [HttpPost]
+    [HttpPost("return")]
     public async Task<IActionResult> Return(int bookId, int authorId)
     {
         try

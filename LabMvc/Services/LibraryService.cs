@@ -17,18 +17,18 @@ public class LibraryService
   
     public async Task<List<(Book Book, bool IsAvailable, DateTime? DueDate)>> GetBooksByAuthor(int authorId)
     {
-        var books = (await _bookRepository.GetAll())
-            .Where(b => b.Authors.Any(a => a.Id == authorId))
-            .ToList();
+        // Busca todos os livros do autor
+        var books = await _bookRepository.GetByAuthorId(authorId);
 
-        var result = new List<(Book, bool, DateTime?)>();
+        var bookAvailability = new List<(Book, bool, DateTime?)>();
 
         foreach (var book in books)
         {
             var activeLoan = await _loanRepository.FindLoanByBookId(book.Id);
-            result.Add((book, false, activeLoan.DevolutionDate));
+            bookAvailability.Add((book, false, activeLoan?.DevolutionDate));
         }
-        return result;
+
+        return bookAvailability;
     }
 
     public async Task BorrowBook(int bookId)
